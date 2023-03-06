@@ -131,3 +131,4 @@ config NCS_MCUBOOT_IN_BUILD
 endmenu
 
 rsource "common/Kconfig"
+//hfhh

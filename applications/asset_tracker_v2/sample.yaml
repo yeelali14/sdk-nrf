@@ -191,4 +191,4 @@ tests:
     extra_args: SHIELD=nrf7002_ek OVERLAY_CONFIG="overlay-nrf7002ek-wifi-scan-only.conf;overlay-debug.conf" DTC_OVERLAY_FILE="nrf9160dk_with_nrf7002ek.overlay"
     tags: ci_build
 //okasdasdas
-//fsdfsdf
+//fsdfsdfdasdasdsa

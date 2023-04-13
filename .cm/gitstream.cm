@@ -7,7 +7,7 @@ automations:
   sensitive_file_review:
     # For all files listed in the sensitive custom expression.
     if:
-      - {{ files | match(list=sensitive_files) | some }}
+      - true
     run:
       # Add reviewers from the dev-leads team, and require two approvals
       # Modify `my_organization/dev-leads` to match your organization.
@@ -22,7 +22,7 @@ automations:
   assign_code_experts:
     # If the PR changes any files inside `/src`.
     if: 
-      - {{ files | match(regex=r/src\//) | some }}
+      - true
     run:
       # Add a code reviewer with a minimum 10% expertise
       - action: add-reviewers@v1

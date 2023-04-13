@@ -4,22 +4,32 @@ manifest:
   version: 1.0
 
 automations:
-  estimated_time_to_review:
+  sensitive_file_review:
+    # For all files listed in the sensitive custom expression.
     if:
-      - true
+      - {{ files | match(list=sensitive_files) | some }}
     run:
-      - action: add-label@v1
+      # Add reviewers from the dev-leads team, and require two approvals
+      # Modify `my_organization/dev-leads` to match your organization.
+      - action: set-required-approvals@v1
         args:
-          label: "{{ calc.etr }} min review"
-          color: {{ 'E94637' if (calc.etr >= 20) else ('FBBD10' if (calc.etr >= 5) else '36A853') }}
-  git_blame:
-    if:
-      - true
+          approvals: 2
+      - action: add-reviewers@v1
+        args:
+          reviewers: [blp-test-dev/release]
+
+  # Assign up to 2 reviewers based on highest code expertise. 
+  assign_code_experts:
+    # If the PR changes any files inside `/src`.
+    if: 
+      - {{ files | match(regex=r/src\//) | some }}
     run:
+      # Add a code reviewer with a minimum 10% expertise
+      - action: add-reviewers@v1
+        args:
+          reviewers: {{ repo | codeExperts(gt=10) }}
+      # Post a comment that lists all code experts who exceed the 10% threshold
       - action: add-comment@v1
         args:
           comment: |
-            {{ repo | explainRankByGitBlame(gt=25) }}
-
-calc:
-  etr: {{ branch | estimatedReviewTime }}
+            {{ repo | explainCodeExperts(gt=10) }}

@@ -342,3 +342,4 @@ The application depends on the following Zephyr libraries:
 
 * :ref:`zephyr:logging_api`
 * :ref:`zephyr:kernel_api`
+//ggg
